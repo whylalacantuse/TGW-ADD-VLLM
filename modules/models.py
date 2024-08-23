@@ -70,6 +70,7 @@ def load_model(model_name, loader=None):
     shared.model_name = model_name
     load_func_map = {
         'Transformers': huggingface_loader,
+		'Vllm': vllm_loader,
         'AutoGPTQ': AutoGPTQ_loader,
         'llama.cpp': llamacpp_loader,
         'llamacpp_HF': llamacpp_HF_loader,
@@ -263,6 +264,12 @@ def huggingface_loader(model_name):
         model = LoaderClass.from_pretrained(path_to_model, **params)
 
     return model
+
+
+def vllm_loader(model_name):
+    import modules.vllm
+
+    return modules.vllm.load(model_name)
 
 
 def llamacpp_loader(model_name):
